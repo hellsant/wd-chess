@@ -1,0 +1,44 @@
+<project name="DependencyAnalyzer" basedir=".">
+    <description>Build file for Shatranj</description>
+    <property name="build.dir" value="build/" />
+    <property name="lib.dir" value="lib" />
+    <property name="manifest.file" value="${jar.dir}/MANIFEST.MF" />
+    <property name="main.class" value="com.chess.Shatranj" />
+
+    <target name="initialize"
+            description="initial directory setup">
+        <mkdir dir="build"/>
+        <mkdir dir="lib"/>
+    </target>
+
+    <target name="clean"
+            description="removes all unwanted files">
+        <delete dir="build"/>
+        <delete dir="lib"/>
+    </target>
+
+    <target name="compile"
+            depends="initialize"
+            description="compiles source files">
+        <javac srcdir="com/chess"
+               destdir="build"
+               includeAntRuntime="no"
+               failonerror="true"
+               excludes="tests/**/*.java">
+        </javac>
+    </target>
+
+    <target name="jar"
+            depends="compile"
+            description="builds jar file">
+            <jar destfile="${lib.dir}/Shatranj.jar" basedir="${build.dir}">
+                    <fileset dir="${build.dir}" includes="**/*.class" />
+                    <zipgroupfileset dir="${lib.dir}" includes="**/*.jar" />
+                    <manifest>
+                            <attribute name="built-by" value="amir.afghani" />
+                            <attribute name="Main-Class" value="${main.class}" />
+                    </manifest>
+            </jar>
+    </target>
+
+</project>
